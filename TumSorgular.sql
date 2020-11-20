@@ -84,7 +84,7 @@ GROUP BY Kullanici.kullanici_isim
 HAVING COUNT(*)>=2;
 
 
-/*Birden fazla fotoğraf albümü olan kişilerin isimlerini listele -- HATA VERÝYÜR */						   
+/*Birden fazla fotoğraf albümü olan kişilerin isimlerini listele --  */						   
 SELECT Kullanici.kullanici_isim AS Kullanicilar
 FROM Kullanici, Fotograf_album
 WHERE Kullanici.kullanici_id=Fotograf_album.kullanici_id
