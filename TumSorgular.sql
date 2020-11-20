@@ -1,12 +1,12 @@
 use HOMv18 
 
-/* Selam mesajı alanlardan C# yetenği olanların adını mailini ve okulunu listele */
+/* Selam mesajÄ± alanlardan C# yeteneÄŸi olanlarÄ±n adÄ±nÄ±, mailini ve okulunu listele */
 SELECT kl.kullanici_isim,kl.e_mail,ok.okul_adi
 FROM Kullanici AS kl, Mesaj AS msj, Yetenek AS yet, Kullanici_yetenek AS kulyet, Egitim AS eg, Okul AS ok
 WHERE msj.icerik = 'Selam' AND msj.kullanici_id = kl.kullanici_id AND kl.kullanici_id = kulyet.kullanici_id AND kulyet.yetenek_id =yet.yetenek_id
 AND yet.yetenek_adi = 'C#' AND kl.kullanici_id = eg.kullanici_id AND eg.okul_id = ok.okul_id
 
-/* Selam mesajı alanlardan C# yeteneği olanların adını mailini ve okulunu listele  kendi sorgum*/
+/* Selam mesajÄ± alanlardan C# yeteneÄŸi olanlarÄ±n adÄ±nÄ±, mailini ve okulunu listele  kendi sorgum*/
 
 SELECT k.kullanici_isim, k.e_mail, o.okul_adi
 FROM	Kullanici as k, Okul as o, Mesaj as m, Yetenek as y, Kullanici_yetenek as ky, Egitim as e
@@ -19,7 +19,7 @@ AND e.okul_id=o.okul_id AND e.kullanici_id=k.kullanici_id
 
 
 
-/*  Hasanın Merve isimli arkadaşının üye olduğu toplulukları göster */
+/*  HasanÄ±n Merve isimli arkadaÅŸÄ±nÄ±n Ã¼ye olduÄŸu topluluklarÄ± gÃ¶ster */
 
 SELECT topluluk_adi, aciklama
 FROM Topluluk 
@@ -43,10 +43,10 @@ WHERE topluluk_id = (
 
 																			
 																									
-	/* Ozum ve Hasan ın ortak arkadaşlarından  'aktas367@hotmail.com' mail adresine sahip kişinin odtüde okuyan arkadaşlarının mail adresleri nelerdir */																						
+	/* Ozum ve Hasan Ä±n ortak arkadaÅŸlarÄ±ndan  'aktas367@hotmail.com' mail adresine sahip kiÅŸinin odtÃ¼'de okuyan arkadaÅŸlarÄ±nÄ±n mail adresleri nelerdir */																						
 SELECT k3.e_mail
 FROm Kullanici AS k3, Arkadaslar AS a3, Okul AS o, Egitim AS e 
-WHERE k3.kullanici_id = e.kullanici_id AND e.okul_id = o.okul_id AND o.okul_adi = 'ODTÜ' AND k3.kullanici_id = a3.arkadas_id AND a3.kullanici_id IN (SELECT k.kullanici_id 
+WHERE k3.kullanici_id = e.kullanici_id AND e.okul_id = o.okul_id AND o.okul_adi = 'ODTÃœ' AND k3.kullanici_id = a3.arkadas_id AND a3.kullanici_id IN (SELECT k.kullanici_id 
 FROM Kullanici AS k, Arkadaslar AS a, Kullanici AS k2, Arkadaslar AS a2
 WHERE k2.kullanici_isim LIKE '%Ozum%' AND k2.kullanici_id = a2.kullanici_id AND a.arkadas_id = a2.arkadas_id AND k.e_mail = 'aktas367@hotmail.com' AND a.arkadas_id = k.kullanici_id AND a.kullanici_id IN (SELECT kullanici_id
 																									FROM Kullanici
@@ -55,37 +55,37 @@ WHERE k2.kullanici_isim LIKE '%Ozum%' AND k2.kullanici_id = a2.kullanici_id AND 
 
 -----------------------------------------------------
 
-/*Merve Tahtacının etiketlendiği fotoğraflar*/ 
+/*Merve TahtacÄ±nÄ±n etiketlendiÄŸi fotoÄŸraflar*/ 
 SELECT fotograf_id
 FROM Foto_tag
 Where etiketlenen_kisi IN (SELECT kullanici_id
 						   FROM Kullanici
-						   WHERE kullanici_isim = 'Merve Tahtacı')
+						   WHERE kullanici_isim = 'Merve TahtacÃ½')
 
-/*Merve Tahtacının etiketlendiği fotoğraflar*/ 
+/*Merve TahtacÄ±nÄ±n etiketlendiÄŸi fotoÄŸraflar*/ 
 SELECT k.kullanici_isim AS Foto_sahibi, f.fotograf_id
 FROM Fotograf_album AS fa, Fotograf AS f, Kullanici AS k
 WHERE k.kullanici_id= fa.kullanici_id AND f.fotograf_album_id = fa.fotograf_album_id AND f.fotograf_id IN (SELECT fotograf_id
 						FROM Foto_tag
 						Where etiketlenen_kisi IN (SELECT kullanici_id
 						   FROM Kullanici
-						   WHERE kullanici_isim = 'Merve Tahtacı'))
+						   WHERE kullanici_isim = 'Merve TahtacÄ±'))
 
 
 
 
 
 		
-/*Birden fazla fotoğraf albümü olan kişilerin isimlerini listele -- GROUP BY VE SELECT AYNI OLMALI ?? */						   
-SELECT Kullanici.kullanici_isim AS Kullanıcılar, COUNT(*) AS SAYI
+/*Birden fazla fotoÄŸraf albÃ¼mÃ¼ olan kiÅŸilerin isimlerini listele -- GROUP BY VE SELECT AYNI OLMALI ?? */						   
+SELECT Kullanici.kullanici_isim AS Kullanicilar, COUNT(*) AS SAYI
 FROM  Kullanici, Fotograf_album
 WHERE Kullanici.kullanici_id=Fotograf_album.kullanici_id
 GROUP BY Kullanici.kullanici_isim
 HAVING COUNT(*)>=2;
 
 
-/*Birden fazla fotoğraf albümü olan kişilerin isimlerini listele -- HATA VERİYÜR */						   
-SELECT Kullanici.kullanici_isim AS Kullanıcılar
+/*Birden fazla fotoÄŸraf albÃ¼mÃ¼ olan kiÅŸilerin isimlerini listele -- HATA VERÃYÃœR */						   
+SELECT Kullanici.kullanici_isim AS Kullanicilar
 FROM Kullanici, Fotograf_album
 WHERE Kullanici.kullanici_id=Fotograf_album.kullanici_id
 GROUP BY Kullanici.kullanici_isim
@@ -101,69 +101,69 @@ HAVING COUNT(*) >= 2
 ORDER BY Kullanici.kullanici_isim DESC
 
 
-/* Profil bilgisinde ilişki durumu evli ve hakkında kısmında İstanbul geçen kullanıcıları alfabetik listeleyin. */
+/* Profil bilgisinde iliÅŸki durumu evli ve hakkÄ±nda kÄ±smÄ±nda Istanbul geÃ§en kullanÄ±cÄ±larÄ± alfabetik listeleyin. */
 
-SELECT kullanici_isim AS Profil, about_me AS Hakkında, iliski AS İlişki 
+SELECT kullanici_isim AS Profil, about_me AS HakkÃ½nda, iliski AS ÃliÃ¾ki 
 FROM Kullanici, Profil
-WHERE Kullanici.kullanici_id= Profil.kullanici_id and iliski='Evli' and about_me LIKE '%İstanbul%'
+WHERE Kullanici.kullanici_id= Profil.kullanici_id and iliski='Evli' and about_me LIKE '%Ãstanbul%'
 ORDER BY about_me ASC
 
 
-/* Postu olan kullanıcıların isimlerini listele */
-	select k.kullanici_isim AS Postlu_Kullanıcılar
+/* Postu olan kullanÄ±cÄ±larÄ±n isimlerini listele */
+	select k.kullanici_isim AS Postlu_KullanÃ½cÃ½lar
 	from Kullanici as k inner join Post as p on k.kullanici_id = p.kullanici_id 
 
 
-/* Postu olan kullanıcıların isimlerini listele-EXISTS İLE */
-	select kullanici_isim AS Postlu_Kullanıcılar
+/* Postu olan kullanÄ±cÄ±larÄ±n isimlerini listele-EXISTS'LE */
+	select kullanici_isim AS Postlu_Kullanicilar
 	from Kullanici as k
 	where exists ( select *
 						from Post as p
 						where k.kullanici_id = p.kullanici_id)
 
 
-/*Postu olan kullanıcıların id'Si*/
+/*Postu olan kullanicilarin id'si*/
 	SELECT DISTINCT kullanici_id 
 	FROM Post
 
 
-/*Herhangi bir postu olmayan kullanıcıları listele*/
-	SELECT kullanici_isim AS Postlu_Kullanıcılar
+/*Herhangi bir postu olmayan kullanicilari listele*/
+	SELECT kullanici_isim AS Postlu_Kullanicilar
 	FROM Kullanici as k
 	WHERE not exists ( SELECT *
 					   FROM Post as p
 					   WHERE k.kullanici_id = p.kullanici_id)
 
 
-/*Mustafa Ege Oral'ın paylaştığı postları beğenen kişileri ve sayısını göster.*/ /*KİŞİLERİN İSİMLERİNİ GÖSTEREMEDİM!!!!!!!!!!!!!*/
+/*Mustafa Ege Oral'Ä±n paylaÅŸtÄ±ÄŸÄ± postlarÄ± beÄŸenen kiÅŸileri ve sayÄ±sÄ±nÄ± gÃ¶ster.*/ /*KiÅŸilerin isimlerini gÃ¶steremedim!!!!!!!!!!!!!*/
 
-        SELECT DISTINCT post_id as PostID, begenen_kisi_id as BegenenID, Kullanici.kullanici_isim AS Beğenen_Kullanıcı
+        SELECT DISTINCT post_id as PostID, begenen_kisi_id as BegenenID, Kullanici.kullanici_isim AS BeÃ°enen_Kullanici
             FROM Post_begeni as P, Kullanici
             WHERE P.begenen_kisi_id=Kullanici.kullanici_id  AND P.post_id IN  ( SELECT post_id
                                                                                 FROM Kullanici, Post
                                                                                 WHERE Kullanici.kullanici_isim='Mustafa Ege Oral' AND Post.kullanici_id=Kullanici.kullanici_id)
 
 
-/*Hasan Erfenek'e gelen mesajlarda 'Selam' kelimesini içeren konuşmalar yaptığı kişilerin bilgilerini listeleyiniz.*/
-SELECT kullanici_id AS KullanıcıID, kullanici_isim AS Mesaj_Gönderen
+/*Hasan Erfenek'e gelen mesajlarda 'Selam' kelimesini iÃ§eren konuÅŸmalar yaptÄ±ÄŸÄ± kiÅŸilerin bilgilerini listeleyiniz.*/
+SELECT kullanici_id AS KullaniciID, kullanici_isim AS Mesaj_GÃ¶nderen
 FROM Kullanici
 WHERE kullanici_id= (SELECT Mesaj.kimden_id
                      FROM Kullanici, Mesaj
 			         WHERE icerik LIKE '%Selam%' AND Kullanici.kullanici_isim='Hasan Erfenek' AND Kullanici.kullanici_id= Mesaj.kullanici_id)
 
 
-/*Tiyatro videosuna sahip kişilerin kimler olduğunu ve kullandıkları dili listeleyin.*/
+/*Tiyatro videosuna sahip kiÅŸilerin kimler olduÄŸunu ve kullandÄ±klarÄ± dili listeleyin.*/
 
 
-SELECT Kullanici.kullanici_isim AS Kullanıcılar, dil_adi AS Kullandıkları_Dil, video_adi AS Video
-FROM Kullanici, Dil, Video, Kullanılan_Dil
-WHERE  video_adi LIKE '%Tiyatro%' AND Video.kullanici_id=Kullanici.kullanici_id AND Kullanılan_Dil.kullanici_id=Kullanici.kullanici_id AND Kullanılan_Dil.dil_id=Dil.dil_id
+SELECT Kullanici.kullanici_isim AS Kullanicilar, dil_adi AS Kullandiklari_Dil, video_adi AS Video
+FROM Kullanici, Dil, Video, KullanÃ½lan_Dil
+WHERE  video_adi LIKE '%Tiyatro%' AND Video.kullanici_id=Kullanici.kullanici_id AND KullanÃ½lan_Dil.kullanici_id=Kullanici.kullanici_id AND KullanÃ½lan_Dil.dil_id=Dil.dil_id
 
 
 
 
-/*Hasan Erfenek'in arkadaşlarının etkinlik bilgisini göster. */
-select Etkinlik_bilgisi.etkinlik as Etkinlik, Kullanici.kullanici_isim AS Hasanın_Arkadaşları
+/*Hasan Erfenek'in arkadaÅŸlarÄ±nÄ±n etkinlik bilgisini gÃ¶ster. */
+select Etkinlik_bilgisi.etkinlik as Etkinlik, Kullanici.kullanici_isim AS Hasanin_Arkadaslari
 from Etkinlik_bilgisi, Kullanici
 where Kullanici.kullanici_id=Etkinlik_bilgisi.kullanici_id AND  Kullanici.kullanici_id IN (SELECT Arkadaslar.arkadas_id 
                                                                                           FROM Kullanici, Arkadaslar 
@@ -171,9 +171,9 @@ where Kullanici.kullanici_id=Etkinlik_bilgisi.kullanici_id AND  Kullanici.kullan
 
 
 
-/*Mustafa Ege Oral'ın paylaştığı postları beğenen kişileri ve sayısını göster.*/ 
+/*Mustafa Ege Oral'Ã½n paylaÅŸtÄ±ÄŸÄ± postlarÄ± beÄŸenen kiÅŸileri ve sayÄ±sÄ±nÄ± gÃ¶ster.*/ 
 
-            SELECT DISTINCT post_id as PostID, begenen_kisi_id as BegenenID, Kullanici.kullanici_isim AS Beğenen_Kullanıcı
+            SELECT DISTINCT post_id as PostID, begenen_kisi_id as BegenenID, Kullanici.kullanici_isim AS Begenen_Kullanici
             FROM Post_begeni as P, Kullanici
             WHERE P.begenen_kisi_id=Kullanici.kullanici_id  AND P.post_id IN  ( SELECT post_id
                                                                                 FROM Kullanici, Post
@@ -182,7 +182,7 @@ where Kullanici.kullanici_id=Etkinlik_bilgisi.kullanici_id AND  Kullanici.kullan
 
 
 DROP TRIGGER DilSilme
-DROP TRIGGER KullanılanDilSilme
+DROP TRIGGER KullanilanDilSilme
 
 -----------------------------------
 
@@ -197,21 +197,21 @@ DECLARE @dil_id int, @dil_adi varchar(15)
 SELECT @dil_id=dil_id, @dil_adi=dil_adi FROM DELETED 
 
 BEGIN 
-DELETE FROM Kullanılan_Dil WHERE dil_id=@dil_id
+DELETE FROM KullanÃ½lan_Dil WHERE dil_id=@dil_id
 DELETE FROM Dil WHERE dil_id=@dil_id 
 END 
 
 
 
-CREATE TRIGGER KullanılanDilSilme
-ON Kullanılan_Dil
+CREATE TRIGGER KullanÃ½lanDilSilme
+ON KullanÃ½lan_Dil
 INSTEAD OF DELETE 
 AS 
 
 DECLARE @dil_id int, @kullanici_id int 
 SELECT @dil_id=dil_id, @kullanici_id=kullanici_id  FROM DELETED 
 BEGIN 
-DELETE FROM Kullanılan_Dil WHERE dil_id=@dil_id
+DELETE FROM KullanÃ½lan_Dil WHERE dil_id=@dil_id
 END 
 
 ------------------------------------
@@ -229,28 +229,28 @@ FROM Dil
 
 
 SELECT *
-FROM Kullanılan_Dil
+FROM Kullanilan_Dil
 
 --------------------------------------
 
-insert into Dil(dil_id, dil_adi) values (3, 'İngilizce')
+insert into Dil(dil_id, dil_adi) values (3, 'Ingilizce')
 
 
 
 
-/*Posttaki beğeni sayısı 0'a eşit büyük olabilir.*/																			
+/*Posttaki beÄŸeni sayÄ±sÄ± 0'a eÅŸit bÃ¼yÃ¼k olabilir.*/																			
 ALTER TABLE Post
 Add Constraint p_begeni 
 Check (begeni_sayisi>=0)
 
 ------------------------------------------------------------------------------------------------
 
-/* 'Yeni iş pozisyonunu tebrik ederim!' mesajını alan kullanıcılardan Java deneyimi olanların isim,mail ve okul adlarını yaz.*/
+/* 'Yeni iÅŸ pozisyonunu tebrik ederim!' mesajÄ±nÄ± alan kullanÄ±cÄ±lardan Java deneyimi olanlarÄ±n isim,mail ve okul adlarÄ±nÄ± yaz.*/
 select kullanici_isim,e_mail,okul_adi
 from Kullanici,Okul,Kullanici_yetenek,Mesaj,Yetenek,Egitim
 where Kullanici_yetenek.yetenek_id = Yetenek.yetenek_id and Yetenek.yetenek_adi='Java'
 and Kullanici_yetenek.kullanici_id=Kullanici.kullanici_id
-and Kullanici.kullanici_id=Mesaj.kullanici_id and Mesaj.icerik='Yeni iş pozisyonunu tebrik ederim!'
+and Kullanici.kullanici_id=Mesaj.kullanici_id and Mesaj.icerik='Yeni iÅŸ pozisyonunu tebrik ederim!'
 and Egitim.kullanici_id = Kullanici.kullanici_id
 and Egitim.egitim_id=Okul.okul_id
 
@@ -263,63 +263,63 @@ and Kullanici.kullanici_id=Egitim.kullanici_id and Egitim.okul_id=Okul.okul_id a
 
 							select Kullanici.kullanici_id
 							from Kullanici,Mesaj
-							where Mesaj.icerik='Yeni iş pozisyonunu tebrik ederim!' and Mesaj.kullanici_id=Kullanici.kullanici_id )
+							where Mesaj.icerik='Yeni iÅŸ pozisyonunu tebrik ederim!' and Mesaj.kullanici_id=Kullanici.kullanici_id )
 
-/* IEEE üyesi olan Bursa lokasyonundaki bir şirkette çalışmış insanların isimleri ve ilgi alanlarını göster */
+/* IEEE Ã¼yesi olan Bursa lokasyonundaki bir ÅŸirkette Ã§alÄ±ÅŸmÄ±ÅŸ insanlarÄ±n isimleri ve ilgi alanlarÄ±nÄ± gÃ¶ster */
 select Kullanici.kullanici_isim,Okul.okul_adi,Company.company_name
 from Kullanici,Okul,Company,Topluluk,Topluluk_Uyeleri,Deneyim,Ilgi_Alani
 where Kullanici.kullanici_id= Topluluk_Uyeleri.kullanici_id and Topluluk_Uyeleri.topluluk_id=Topluluk.topluluk_id and Topluluk.topluluk_adi='IEEE'
 and Kullanici.kullanici_id=Deneyim.kullanici_id and Deneyim.company_id=Company.company_id and Company.lokasyon='Bursa'
 and Kullanici.kullanici_id=Ilgi_Alani.kullanici_id  and Ilgi_Alani.okul_id =Okul.okul_id
 
-/* IEEE üyesi olan Bursa lokasyonundaki bir şirkette çalışmış insanların isimleri ve ilgi alanlarını göster */
+/* IEEE Ã¼yesi olan Bursa lokasyonundaki bir ÅŸirkette Ã§alÄ±ÅŸmÄ±ÅŸ insanlarÄ±n isimleri ve ilgi alanlarÄ±nÄ± gÃ¶ster */
 SELECT Kullanici.kullanici_isim, Ilgi_Alani.ilgialani_id
 FROM Kullanici,Ilgi_Alani, Topluluk as T, Topluluk_Uyeleri as T1, Deneyim, Company
 WHERE T.topluluk_id=T1.topluluk_id AND T.topluluk_adi='IEEE' AND T1.kullanici_id=Kullanici.kullanici_id 
 AND Kullanici.kullanici_id=Deneyim.kullanici_id AND Company.lokasyon='Bursa' AND 
 Deneyim.company_id=Company.company_id  AND Kullanici.kullanici_id=Ilgi_Alani.kullanici_id
 
-/* Postunda 'mühendisler gününüz kutlu olsun!' yazan birinin paylaştığı fotoğrafları göster.*/
+/* Postunda 'mÃ¼hendisler gÃ¼nÃ¼nÃ¼z kutlu olsun!' yazan birinin paylaÅŸtÄ±ÄŸÄ± fotoÄŸraflarÄ± gÃ¶ster.*/
 select Fotograf.fotograf_id
 from Fotograf,Fotograf_album,Post,Kullanici
-where Kullanici.kullanici_id=Post.kullanici_id and Post.post_icerik='mühendisler gününüz kutlu olsun!'
+where Kullanici.kullanici_id=Post.kullanici_id and Post.post_icerik='mÃ¼hendisler gÃ¼nÃ¼nÃ¼z kutlu olsun!'
 and Kullanici.kullanici_id=Fotograf_album.kullanici_id and Fotograf_album.fotograf_album_id=Fotograf.fotograf_album_id
 
-/* Botart şirketinin verdiği iş ilanlarını listele.*/
+/* Botart ÅŸirketinin verdiÄŸi iÅŸ ilanlarÄ±nÄ± listele.*/
 select baslik
 from Is_Ilani,Company
 where Is_Ilani.company_id=Company.company_id and Company.company_name='Botart'
 
-/*Herhangi bir topluluğa üye olmayan kişilerin isimlerini listele.*/
+/*Herhangi bir topluluÄŸa Ã¼ye olmayan kiÅŸilerin isimlerini listele.*/
 select kullanici_isim
 from Kullanici
 where not exists (select * from Topluluk_Uyeleri  where Topluluk_Uyeleri.kullanici_id=Kullanici.kullanici_id)
 
-/* Takipçi sayisi 100den fazla olan şirketleri lokasyonuna göre grupla.*/ 
+/* TakipÃ§i sayisi 100den fazla olan ÅŸirketleri lokasyonuna gÃ¶re grupla.*/ 
 select lokasyon
 from Company
 where takipci_sayisi>100
 group by lokasyon
 
 
-/*Okul tablosundaki kayıtları takipçi sayısına göre artan sırada sırala.*/
+/*Okul tablosundaki kayÄ±tlarÄ± takipÃ§i sayÄ±sÄ±na gÃ¶re artan sÄ±rada sÄ±rala.*/
 select *
 from Okul
 order by takipci_sayisi asc
 
-/* Profilinde hakkında kısmında a harfi bulunanları listele.*/
+/* Profilinde hakkÄ±nda kÄ±smÄ±nda a harfi bulunanlarÄ± listele.*/
 select kullanici_isim,about_me
 from Profil,Kullanici
 where Kullanici.kullanici_id=Profil.kullanici_id 
 and Profil.about_me like '%a%'
 
-/* İş ilanlarında istenen yetenek sayılarını çoktan aza listele.*/
+/* iÅŸ ilanlarÄ±nda istenen yetenek sayÄ±larÄ±nÄ± Ã§oktan aza listele.*/
 select count(Yetenek.yetenek_id)
 from Yetenek,Is_Ilani,Is_Ilani_Yetenek
 where  Is_Ilani.ilan_id=Is_Ilani_Yetenek.ilan_id and Is_Ilani_Yetenek.yetenek_id=Yetenek.yetenek_id 
 order by count(Yetenek.yetenek_id) desc
 
-/* Mervenin Hasan isimli arkadaşının üye olduğu toplulukları listele.*/
+/* Mervenin Hasan isimli arkadaÅŸÄ±nÄ±n Ã¼ye olduÄŸu topluluklarÄ± listele.*/
 select topluluk_adi, aciklama
 from Topluluk 
 where topluluk_id in (
@@ -339,7 +339,7 @@ where topluluk_id in (
 		)
 	)
 )
-/* Mervenin Hasan isimli arkadaşının üye olduğu toplulukları listele.*/
+/* Mervenin Hasan isimli arkadaÅŸÄ±nÄ±n Ã¼ye olduÄŸu topluluklarÄ± listele.*/
 
 select topluluk_adi,aciklama
 from Topluluk as t ,Topluluk_Uyeleri as t1,Kullanici as k, Kullanici as k1,Connections as c
@@ -349,14 +349,14 @@ where k.kullanici_isim LIKE '%Merve%'AND k.kullanici_id=c.kullanici_id
  
 
 
-/* 'Merve Tahtaci'nin üye olduğu toplulukların adını listele.*/
+/* 'Merve Tahtaci'nin Ã¼ye olduÄŸu topluluklarÄ±n adÄ±nÄ± listele.*/
 select topluluk_adi
 from Topluluk 
 where topluluk_id in ( select topluluk_id
 					   from Topluluk_Uyeleri,Kullanici
 					   where Topluluk_Uyeleri.kullanici_id=Kullanici.kullanici_id and Kullanici.kullanici_isim='Merve Tahtaci' )
 
-/* Takipçi sayısı en fazla olan okulun lokasyonunu ve adını yazdır.*/
+/* TakipÃ§i sayÄ±sÄ± en fazla olan okulun lokasyonunu ve adÄ±nÄ± yazdÄ±r.*/
 select lokasyon,okul_adi
 from Okul
 where takipci_sayisi in (select max(takipci_sayisi) from Okul)
